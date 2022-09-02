@@ -1,28 +1,38 @@
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
+    static RandomAccessFile archivo = null;
     public static void main(String[] args) throws IOException {
 
-                Scanner sc = new Scanner(System.in);
+
                 FileOutputStream fos = null;
                 DataOutputStream salida = null;
-                int n;
+
 
                 try {
-                    fos = new FileOutputStream("datos.dat");
-                    salida = new DataOutputStream(fos);
+                    //crea el archivo:
+                    archivo = new RandomAccessFile("datos.bin", "rw");
 
-                    System.out.print("Introduce número entero. -1 para acabar: ");
-                    n = sc.nextInt();
-                    while (n != -1) {
-                        salida.writeInt(n); //se escribe el número entero en el fichero
-                        System.out.print("Introduce número entero. -1 para acabar: ");
-                        n = sc.nextInt();
+
+                    //crea puntero al registro.
+
+                    //asigno registros:
+                    Registro registro1 = new Registro(0, "000000", "aaaaaaaaaa", "aaaaaaaaaa", 000000);
+                    Registro registro2 = new Registro(1, "000001", "bbbbbbbbbb", "bbbbbbbbbb", 000000);
+                    Registro registro3 = new Registro(2, "000002", "cccccccccc", "cccccccccc", 000000);
+                    registro1.escribirRegistro(archivo);
+                    registro2.escribirRegistro(archivo);
+                    registro3.escribirRegistro(archivo);
+                    String linea = "";
+                    archivo.seek(0); //nos situamos al principio
+                    for (int i = 0; i < 36; i++) {
+                        linea += archivo.readChar();
                     }
+                    System.out.println(linea);  //se muestra en pantalla
+
+
+
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 } finally {
@@ -37,5 +47,6 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                 }
+
     }
 }
