@@ -10,15 +10,11 @@ public class Main {
                 try {
                     //crea el archivo:
                     archivo = new RandomAccessFile("datos.bin", "rw");
-
-                    //asigno registros:
-                    Registro registro1 = new Registro(0,0, "aaaaaaaaaa", "bbbbbbbbbb", 0);
-                    registro1.escribirRegistro(archivo);
-
-                    //Recupero registro del archivo
-                    Registro leer = Registro.devolverRegistro(archivo, 0);
-                    System.out.println(leer.armarString());  //se muestra en pantalla
-
+                    if (archivo.length() == 0) {
+                        Funciones.crearVacio(archivo);
+                        System.out.println("Archivo creado!!!");
+                    }
+                    Funciones.mostrarArchivo(archivo);
 
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
