@@ -4,7 +4,7 @@ import java.io.RandomAccessFile;
 public class Funciones {
 
     static final int inicioZO = 877;
-
+    static int elementosZO = 0;
 
     public static void crearVacio(RandomAccessFile archivo) throws IOException {
         //En caso que el archivo no exista, lo crea con todos en nulo
@@ -16,7 +16,7 @@ public class Funciones {
     }
 
     public static void mostrarArchivo(RandomAccessFile archivo) throws IOException {
-        int eof = Math.toIntExact(archivo.length() / Registro.tamanioRegistro);
+        int eof = Math.toIntExact(archivo.length() / Registro.tamanioRegistro) + elementosZO;
         Registro leer;
         for (int i = 0; i < eof; i++) {
             leer = Registro.devolverRegistro(archivo, i);
@@ -61,7 +61,7 @@ public class Funciones {
 
         while ((registroActual.estado()) && (posicionRegistroActual != -1)) {
             posicionRegistroActual = registroActual.enlace();
-            if (posicionRegistroActual != -1) {
+            if (registroActual.enlace() != -1) {
                 posicionAModificar = posicionRegistroActual;
                 registroActual = Registro.devolverRegistro(archivo, registroActual.enlace());
             }
@@ -71,15 +71,16 @@ public class Funciones {
         int posicionEscribir = buscarLibreZO(archivo);
 
         if (posicionEscribir == -1) {
-            posicionEscribir = (int) (archivo.length()) / Registro.tamanioRegistro;
+            posicionEscribir = ((int) (archivo.length()) / Registro.tamanioRegistro) + elementosZO;
             registro.escribirRegistro(archivo);
+            elementosZO ++;
         }
         else {
             registro.sobreescribirRegistro(archivo,posicionEscribir);
         }
 
         registroActual = Registro.modificarRegistro(registroActual.indice(),registroActual.codigoCliente(),
-                                        registroActual.apellido(),registroActual.nombre(),posicionEscribir,registroActual.estado());
+                                        "prueba",registroActual.nombre(),posicionEscribir,registroActual.estado());
         registroActual.sobreescribirRegistro(archivo,posicionAModificar);
 
     }
