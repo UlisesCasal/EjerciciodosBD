@@ -14,7 +14,13 @@ public class Main {
                         Funciones.crearVacio(archivo);
                         System.out.println("Archivo creado!!!");
                     }
+                    //Funciones.mostrarArchivo(archivo);
+                    Registro rg1 = new Registro(874,874,"Verga","Pepe", -1,true);
+                    Registro rg2 = new Registro(877,1751,"Concha","Juana", -1,true);
+                    Funciones.alta(archivo,rg1);
+                    Funciones.alta(archivo,rg2);
                     Funciones.mostrarArchivo(archivo);
+
 
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
