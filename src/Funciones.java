@@ -6,9 +6,18 @@ public class Funciones {
     static final int inicioZO = 877;
     static int elementosZO = 0;
 
+    public static String hacerStringde10(String cadena) {
+        cadena = cadena.trim();
+        int agregar = 10 - cadena.length();
+        for (int i = 0; i < agregar; i++) {
+            cadena += " ";
+        }
+        return cadena;
+    }
+
     public static void crearVacio(RandomAccessFile archivo) throws IOException {
         //En caso que el archivo no exista, lo crea con todos en nulo
-        for (int i = 0; i < inicioZO ; i++) {
+        for (int i = 0; i < inicioZO; i++) {
             Registro registroNulo = new Registro(i, 0, "..........", "..........", -1, false);
             registroNulo.escribirRegistro(archivo);
         }
@@ -70,8 +79,8 @@ public class Funciones {
 
         int posicionEscribir = buscarLibreZO(archivo);
 
+        posicionEscribir = ((int) (archivo.length()) / Registro.tamanioRegistro) + elementosZO;
         if (posicionEscribir == -1) {
-            posicionEscribir = ((int) (archivo.length()) / Registro.tamanioRegistro) + elementosZO;
             registro.escribirRegistro(archivo);
             elementosZO ++;
         }
@@ -80,7 +89,7 @@ public class Funciones {
         }
 
         registroActual = Registro.modificarRegistro(registroActual.indice(),registroActual.codigoCliente(),
-                                        "prueba",registroActual.nombre(),posicionEscribir,registroActual.estado());
+                                        registroActual.apellido(),registroActual.nombre(),posicionEscribir,registroActual.estado());
         registroActual.sobreescribirRegistro(archivo,posicionAModificar);
 
     }
