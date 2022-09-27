@@ -2,17 +2,21 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public record Registro(Integer indice, Integer codigoCliente, String apellido, String nombre, Integer enlace, boolean estado) {
-
+    
     static final int tamanioRegistro = 37;
 
-    public String armarString() {
-        return this.indice + ", " +  this.codigoCliente + ", " + this.apellido + ", " + this.nombre + ", " + this.enlace;
+    public  String armarString() {
+        return this.indice + ", " +  this.codigoCliente + ", " + this.apellido + ", " + this.nombre + ", " + this.enlace + ", " + this.estado;
     }
     public static Registro modificarRegistro(Integer indiceE, Integer codigoClienteE, String apellidoE, String nombreE, Integer enlaceE, boolean estadoE) {
         Registro registroNuevo = new Registro(indiceE, codigoClienteE, apellidoE, nombreE, enlaceE, estadoE);
         return registroNuevo;
     }
 
+    public Registro  cambiarIndice(int indice){
+        Registro registroNuevo = new Registro(indice, this.codigoCliente, this.apellido, this.nombre, this.enlace, this.estado);
+        return registroNuevo;
+    }
 
     // Escribir el contenido de un registro en un archivo pasado por parametro(temporalmente APPEND)
     public void escribirRegistro(RandomAccessFile archivo) throws IOException {
