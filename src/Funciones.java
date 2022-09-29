@@ -208,6 +208,7 @@ if ( encontro && posicionSiguiente==-1){
 }else if(encontro && posicionSiguiente != -1){
         do{
 
+            registroActual = Registro.devolverRegistro(archivo, posicionActual);
             Registro registroSiguiente = Registro.devolverRegistro(archivo, posicionSiguiente);
             posicionAnterior=posicionActual;
             posicionActual=posicionSiguiente;
@@ -226,13 +227,14 @@ if ( encontro && posicionSiguiente==-1){
         registroActual = new Registro(posicionActual, 0, "..........", "..........", -1, false);
         registroActual.sobreescribirRegistro(archivo, posicionActual);
 
-
     }
 
 
 
-    if(encontro && zo){
+    if((encontro && zo) && (elementosZO > 0)){
         elementosZO--;
+
+
     }
 
     return  encontro;
