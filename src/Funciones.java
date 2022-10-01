@@ -244,7 +244,11 @@ if ( encontro && posicionSiguiente==-1){
     
 }
 
-
+    public static void limpiar() {
+        for (int i = 0; i < 20; i++) {
+            System.out.println();
+        }
+    }
 
 
 
