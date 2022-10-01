@@ -37,8 +37,11 @@ public class Main {
                         System.out.println("5.Mostrar archivo");
                         System.out.println("0. Salir");
                         opcion = sc.nextLine();
+                        Funciones.limpiar();
                         switch (opcion) {
                         case "1":
+                            //Realiza alta:
+                            Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
                             codigoCliente = sc.nextInt();
                             
@@ -49,7 +52,6 @@ public class Main {
                                 pausa = sc.nextLine();
                                 System.out.println("Ingresa el apellido del cliente");
                                 apellido = sc.nextLine();
-                                pausa = sc.nextLine();
                                 System.out.println("Ingresa el nombre del cliente");
                                 nombre = sc.nextLine();
                                 Registro reg = new Registro(Funciones.funcionHash(codigoCliente),codigoCliente,
@@ -62,10 +64,12 @@ public class Main {
                             }
                             archivo.close();
                             
-                            
+                            System.out.println("Presione ENTER para continuar...");
                             pausa = sc.nextLine();
                             break;
                         case "2":
+                            //Realiza baja
+                            Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
                             codigoCliente = sc.nextInt();
                             
@@ -74,11 +78,12 @@ public class Main {
                                 System.out.println("Se elimino el registro correctamente");
                             }else{
                                 System.out.println("No ingresaste un codigo existente...");
-                            };
+                            }
                             archivo.close();
                             pausa = sc.nextLine();
                             break;
                         case "3":
+                            Funciones.limpiar();
                             boolean opcionValida=false;
                             System.out.println("Ingresa el codigo de cliente: ");
                             codigoCliente = sc.nextInt();
@@ -122,8 +127,10 @@ public class Main {
                                         opcionValida=true;
                                         //salir
                                     }
-                                }                   
+                                }
+                                System.out.println("Presione ENTER para continuar...");
                                 pausa = sc.nextLine();
+                                Funciones.limpiar();
                             }else {
                                 
                                 System.out.println("El codigo de cliente no existe...");
@@ -134,7 +141,7 @@ public class Main {
                             
                             break;
                         case "4":
-
+                            Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
                             codigoCliente = sc.nextInt();
                             archivo = new RandomAccessFile("datos.bin", "rw");
@@ -146,20 +153,25 @@ public class Main {
                                 pausa= sc.nextLine();
                             }else{
                                 System.out.println("El codigo de cliente buscado no existe");
+                                sc.nextLine();
                             }
 
                             archivo.close();
 
+                            System.out.println("Presione ENTER para continuar...");
                             pausa= sc.nextLine();
-                            pausa= sc.nextLine();
+                            Funciones.limpiar();
                             break;
                         case "5":
+                            Funciones.limpiar();
                             archivo = new RandomAccessFile("datos.bin", "rw");
                             Funciones.mostrarArchivo(archivo);
                             archivo.close();
+                            System.out.println("Presione ENTER para continuar...");
                             pausa = sc.nextLine();
                             break;
                         case "0":
+                            Funciones.limpiar();
                             System.out.println("Excelente servicio, nos vemos");
                             //pausa = sc.nextLine();
                             break;
