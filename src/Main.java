@@ -43,25 +43,27 @@ public class Main {
                             //Realiza alta:
                             Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
-                            codigoCliente = sc.nextInt();
+                            String scodigoCliente = sc.nextLine();
                             
 
                             archivo = new RandomAccessFile("datos.bin", "rw");
-
-                            if (Funciones.buscarRegistro(archivo, codigoCliente)<0){
-                                pausa = sc.nextLine();
-                                System.out.println("Ingresa el apellido del cliente");
-                                apellido = sc.nextLine();
-                                System.out.println("Ingresa el nombre del cliente");
-                                nombre = sc.nextLine();
-                                Registro reg = new Registro(Funciones.funcionHash(codigoCliente),codigoCliente,
-                                Funciones.hacerStringde10(apellido),Funciones.hacerStringde10(nombre), -1,true);
-                                Funciones.alta(archivo,reg);
-                            }else {
+                            if (Funciones.isNumeric(scodigoCliente)) {
+                                //verifico si es numerico
+                                codigoCliente = Integer.parseInt(scodigoCliente);
+                                if (Funciones.buscarRegistro(archivo, codigoCliente)<0){
+                                    System.out.println("Ingresa el apellido del cliente");
+                                    apellido = sc.nextLine();
+                                    System.out.println("Ingresa el nombre del cliente");
+                                    nombre = sc.nextLine();
+                                    Registro reg = new Registro(Funciones.funcionHash(codigoCliente),codigoCliente,
+                                    Funciones.hacerStringde10(apellido),Funciones.hacerStringde10(nombre), -1,true);
+                                    Funciones.alta(archivo,reg);
+                                }else {
                                 
-                                System.out.println("El codigo de cliente ya existe...");
-                                pausa = sc.nextLine();
-                            }
+                                    System.out.println("El codigo de cliente ya existe...");
+                                    pausa = sc.nextLine();
+                                }} else System.out.println("Codigo inválido...");
+
                             archivo.close();
                             
                             System.out.println("Presione ENTER para continuar...");
@@ -71,63 +73,70 @@ public class Main {
                             //Realiza baja
                             Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
-                            codigoCliente = sc.nextInt();
-                            
+                            scodigoCliente = sc.nextLine();
                             archivo = new RandomAccessFile("datos.bin", "rw");
-                            if(Funciones.baja(archivo,codigoCliente)){
-                                System.out.println("Se elimino el registro correctamente");
-                            }else{
-                                System.out.println("No ingresaste un codigo existente...");
-                            }
+                            //Verifica si es numerico, en tal caso lo asigna:
+
+                            if (Funciones.isNumeric(scodigoCliente)) {
+                                codigoCliente = Integer.parseInt(scodigoCliente);
+
+                                if (Funciones.baja(archivo, codigoCliente)) {
+                                    System.out.println("Se elimino el registro correctamente");
+                                } else {
+                                    System.out.println("No ingresaste un codigo existente...");
+                                }
+                            }else { System.out.println("Codigo invalido...");}
+
                             archivo.close();
+                            System.out.println("Presione ENTER para continuar...");
                             pausa = sc.nextLine();
                             break;
                         case "3":
                             Funciones.limpiar();
                             boolean opcionValida=false;
                             System.out.println("Ingresa el codigo de cliente: ");
-                            codigoCliente = sc.nextInt();
+                            scodigoCliente = sc.nextLine();
 
                             archivo = new RandomAccessFile("datos.bin", "rw");
-                            int posicionAModificar=Funciones.buscarRegistro(archivo, codigoCliente);
-                            if (posicionAModificar>=0){
+                            if (Funciones.isNumeric(scodigoCliente)) {
+                                codigoCliente = Integer.parseInt(scodigoCliente);
+                                int posicionAModificar=Funciones.buscarRegistro(archivo, codigoCliente);
+                                if (posicionAModificar>=0){
 
-                                while(!opcionValida){
-                                    System.out.println("-------------------Elegi opcion-----------------------");
-                                    System.out.println("1.Cambiar nombre");
-                                    System.out.println("2.Cambiar apellido");
-                                    System.out.println("0.Cancelar");
-                                    Registro registroAModificar;
-                                    opcion = sc.nextLine();
-                                    opcion = sc.nextLine();
-                                    switch (opcion) {
-                                        case "1":
-                                        //cambiarNombre
-                                        System.out.println("Ingresa el nombre del cliente");
-                                        nombre = sc.nextLine();
-                                        registroAModificar = Registro.devolverRegistro(archivo, posicionAModificar);
-                                        registroAModificar = new Registro(registroAModificar.indice(),registroAModificar.codigoCliente(),
-                                            Funciones.hacerStringde10(registroAModificar.apellido()),Funciones.hacerStringde10(nombre), registroAModificar.enlace(),true);
+                                    while(!opcionValida){
+                                        System.out.println("-------------------Elegi opcion-----------------------");
+                                        System.out.println("1.Cambiar nombre");
+                                        System.out.println("2.Cambiar apellido");
+                                        System.out.println("0.Cancelar");
+                                        Registro registroAModificar;
+                                        opcion = sc.nextLine();
+                                        opcion = sc.nextLine();
+                                        switch (opcion) {
+                                            case "1":
+                                            //cambiarNombre
+                                            System.out.println("Ingresa el nombre del cliente");
+                                            nombre = sc.nextLine();
+                                            registroAModificar = Registro.devolverRegistro(archivo, posicionAModificar);
+                                            registroAModificar = new Registro(registroAModificar.indice(),registroAModificar.codigoCliente(), Funciones.hacerStringde10(registroAModificar.apellido()),Funciones.hacerStringde10(nombre), registroAModificar.enlace(),true);
 
-                                        registroAModificar.sobreescribirRegistro(archivo, posicionAModificar);
-                                        opcionValida=true;
-                                        break;
-                                        case "2":
-                                        //cambiar apellido
-                                        System.out.println("Ingresa el apellido del cliente");
-                                        apellido = sc.nextLine();
-                                        registroAModificar = Registro.devolverRegistro(archivo, posicionAModificar);
-                                        registroAModificar = new Registro(registroAModificar.indice(),registroAModificar.codigoCliente(),
-                                            Funciones.hacerStringde10(apellido),Funciones.hacerStringde10(registroAModificar.nombre()), registroAModificar.enlace(),true);
+                                            registroAModificar.sobreescribirRegistro(archivo, posicionAModificar);
+                                            opcionValida=true;
+                                            break;
+                                            case "2":
+                                            //cambiar apellido
+                                            System.out.println("Ingresa el apellido del cliente");
+                                            apellido = sc.nextLine();
+                                            registroAModificar = Registro.devolverRegistro(archivo, posicionAModificar);
+                                            registroAModificar = new Registro(registroAModificar.indice(),registroAModificar.codigoCliente(), Funciones.hacerStringde10(apellido),Funciones.hacerStringde10(registroAModificar.nombre()), registroAModificar.enlace(),true);
 
-                                        registroAModificar.sobreescribirRegistro(archivo, posicionAModificar);
-                                        opcionValida=true;
-                                        break;
-                                        case "0":
-                                        opcionValida=true;
+                                            registroAModificar.sobreescribirRegistro(archivo, posicionAModificar);
+                                            opcionValida=true;
+                                            break;
+                                            case "0":
+                                            opcionValida=true;
                                         //salir
                                     }
-                                }
+                                }}
                                 System.out.println("Presione ENTER para continuar...");
                                 pausa = sc.nextLine();
                                 Funciones.limpiar();
@@ -136,25 +145,25 @@ public class Main {
                                 System.out.println("El codigo de cliente no existe...");
                                 pausa = sc.nextLine();
                             }
-                            
+
                             archivo.close();
                             
                             break;
                         case "4":
                             Funciones.limpiar();
                             System.out.println("Ingresa el codigo de cliente: ");
-                            codigoCliente = sc.nextInt();
+                            scodigoCliente = sc.nextLine();
                             archivo = new RandomAccessFile("datos.bin", "rw");
-                            int indice=Funciones.buscarRegistro(archivo, codigoCliente);
-                            if(indice>=0) {
-                                Registro registroBuscado = Registro.devolverRegistro(archivo,indice);
-                                System.out.printf("Registro : ");
-                                System.out.println(registroBuscado.armarString());
-                                pausa= sc.nextLine();
-                            }else{
-                                System.out.println("El codigo de cliente buscado no existe");
-                                sc.nextLine();
-                            }
+                            if (Funciones.isNumeric(scodigoCliente)) {
+                                codigoCliente = Integer.parseInt(scodigoCliente);
+                                int indice = Funciones.buscarRegistro(archivo, codigoCliente);
+                                if (indice >= 0) {
+                                    Registro registroBuscado = Registro.devolverRegistro(archivo, indice);
+                                    System.out.printf("Registro : ");
+                                    System.out.println(registroBuscado.armarString());
+                                } else {
+                                    System.out.println("El codigo de cliente buscado no existe");
+                                }} else System.out.println("Código inválido...");
 
                             archivo.close();
 
